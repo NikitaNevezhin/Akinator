@@ -24,17 +24,6 @@ char* GetUserAnswer()
     return buff;
 }
 
-void AskQuestion(TreeNode* curr_node)
-{
-    if (curr_node->left || curr_node->right) // has kids -> it is a question
-        PRINT_BLUE("object %s?\n", curr_node->data);
-
-    else
-        PRINT_BLUE("My guess: the object is %s?\n", curr_node->data);
-
-    return;
-}
-
 bool IsYesAnswer(const char* answer)
 {
     assert(answer);
@@ -72,6 +61,17 @@ int GetYesNoAnswer() // 1 is yes, 0 is no, -1 is wrong input
     else if (IsNoAnswer(answer)) return 0;
 
     return -1;
+}
+
+void AskQuestion(TreeNode* curr_node)
+{
+    if (curr_node->left || curr_node->right) // has kids -> it is a question
+        PRINT_BLUE("object %s?\n", curr_node->data);
+
+    else
+        PRINT_BLUE("My guess: the object is %s?\n", curr_node->data);
+
+    return;
 }
 
 int AddNewObject(TreeNode* curr_node)
@@ -129,6 +129,10 @@ int PlayAkinatorRound(Tree* akinator_tree)
 {
     TreeNode* curr_node = akinator_tree->root;
 
+    #ifdef GRAPH_DUMP_EACH_ROUND
+    TREE_GRAPH_DUMP(akinator_tree, AKINATOR_DUMP);
+    #endif
+
     if (curr_node == NULL)
     {
         PRINT_RED("akinator_tree root is NULL. Probably, akinator_data is empty\n");
@@ -178,6 +182,10 @@ int PlayAkinatorRound(Tree* akinator_tree)
         }
     }
 
+    #ifdef GRAPH_DUMP_EACH_ROUND
+    TREE_GRAPH_DUMP(akinator_tree, AKINATOR_DUMP);
+    #endif
+    
     return 0;
 }
 

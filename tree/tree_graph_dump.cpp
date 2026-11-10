@@ -40,9 +40,9 @@ int GenerateTreeDump(FILE* dot_file, const TreeNode* root, int* node_idx, int du
     {
         int left_idx = *node_idx; // left child index (saving it as it's gonna be lost in the next line)
         GenerateTreeDump(dot_file, root->left, node_idx, dump_counter);
-        fprintf(dot_file, "        d%d_node_%d:l -> d%d_node_%d:n;\n", dump_counter, curr_idx, dump_counter, left_idx);
-        fprintf(dot_file, "        d%d_node_%d -> d%d_node_%d [color=\"#4169E1\", style=\"dashed\", constraint=false];\n", 
-                dump_counter, left_idx, dump_counter, curr_idx);
+        fprintf(dot_file, "        d%d_node_%d:l -> d%d_node_%d:n [label=\"YES\"];\n", dump_counter, curr_idx, dump_counter, left_idx);
+        // fprintf(dot_file, "        d%d_node_%d -> d%d_node_%d [color=\"#4169E1\", style=\"dashed\", constraint=false];\n", 
+        //         dump_counter, left_idx, dump_counter, curr_idx);
     }
 
     else 
@@ -55,9 +55,9 @@ int GenerateTreeDump(FILE* dot_file, const TreeNode* root, int* node_idx, int du
     {
         int right_idx = *node_idx; // right child index (saving it as it's gonna be lost in the next line)
         GenerateTreeDump(dot_file, root->right, node_idx, dump_counter);
-        fprintf(dot_file, "        d%d_node_%d:r -> d%d_node_%d:n;\n", dump_counter, curr_idx, dump_counter, right_idx);
-        fprintf(dot_file, "        d%d_node_%d -> d%d_node_%d [color=\"#4169E1\", style=\"dashed\", constraint=false];\n", 
-                dump_counter, right_idx, dump_counter, curr_idx);
+        fprintf(dot_file, "        d%d_node_%d:r -> d%d_node_%d:n [label=\"NO\"];\n", dump_counter, curr_idx, dump_counter, right_idx);
+        // fprintf(dot_file, "        d%d_node_%d -> d%d_node_%d [color=\"#4169E1\", style=\"dashed\", constraint=false];\n", 
+        //         dump_counter, right_idx, dump_counter, curr_idx);
     }
 
     else 

@@ -9,17 +9,20 @@
 #include "../utils/StringTools.h"
 
 #define ANSWER_SIZE 256
+
 #define AKINATOR_DATA "akinator/akinator_data.txt"
+#define AKINATOR_DUMP "akinator_dump.html"
+
 
 char*   GetUserAnswer           (void);
-
-void    AskQuestion             (TreeNode* curr_node);
 
 bool    IsYesAnswer             (const char* answer);
 
 bool    IsNoAnswer              (const char* answer);
 
 int     GetYesNoAnswer          (void);
+
+void    AskQuestion             (TreeNode* curr_node);
 
 int     AddNewObject            (TreeNode* curr_node);
 

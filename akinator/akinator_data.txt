@@ -1,1 +1,1 @@
-(animal(barks(is wild(wolf()())(dog()()))(Cat()()))(has brains(Nikita()())(Zbean()())))
+(is animal(barks(is wild(wolf()())(dog()()))(Cat()()))(has brains(is German(Einsten()())(is American(Epstein()())(Nikita()())))(Zbean()())))
