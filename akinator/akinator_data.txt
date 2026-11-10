@@ -1,1 +1,1 @@
-(animal(barks(dog()())(Cat()()))(has brains(Nikita()())(Zbean()())))
+(animal(barks(is wild(wolf()())(dog()()))(Cat()()))(has brains(Nikita()())(Zbean()())))

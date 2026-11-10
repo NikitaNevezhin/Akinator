@@ -27,10 +27,10 @@ char* GetUserAnswer()
 void AskQuestion(TreeNode* curr_node)
 {
     if (curr_node->left || curr_node->right) // has kids -> it is a question
-        printf("object %s?\n", curr_node->data);
+        PRINT_BLUE("object %s?\n", curr_node->data);
 
     else
-        printf("My guess: the object is %s?\n", curr_node->data);
+        PRINT_BLUE("My guess: the object is %s?\n", curr_node->data);
 
     return;
 }
@@ -78,7 +78,7 @@ int AddNewObject(TreeNode* curr_node)
 {
     assert(curr_node);
 
-    printf("That is not %s?! Who was it then?\n", curr_node->data);
+    PRINT_BLUE("That is not %s?! Who was it then?\n", curr_node->data);
     char* new_object = GetUserAnswer();
 
     if (new_object == NULL)
@@ -89,7 +89,7 @@ int AddNewObject(TreeNode* curr_node)
         return 1;
     }
 
-    printf("How do you distinguish them? Unlike %s, %s...\n", curr_node->data, new_object);
+    PRINT_BLUE("How do you distinguish them? Unlike %s, %s...\n", curr_node->data, new_object);
     char* new_characteristic = GetUserAnswer();
 
     TreeNode* left = (TreeNode*)calloc(1, sizeof(TreeNode));
@@ -102,7 +102,7 @@ int AddNewObject(TreeNode* curr_node)
 
     curr_node->data = new_characteristic;
 
-    printf("You outsmarted me, Mr Smartass, my congratulations!\n");
+    PRINT_BLUE("You outsmarted me, Mr Smartass, my congratulations!\n");
 
     return 0;
 }
@@ -125,13 +125,9 @@ int UpdateAkinatorData(Tree* akinator_tree)
     return 0;
 }
 
-int StartAkinator()
+int PlayAkinatorRound(Tree* akinator_tree)
 {
-    Tree akinator_tree = {};
-    TreeInit(&akinator_tree);
-    ParseTree(&akinator_tree, "akinator/akinator_data.txt");
-
-    TreeNode* curr_node = akinator_tree.root;
+    TreeNode* curr_node = akinator_tree->root;
 
     if (curr_node == NULL)
     {
@@ -147,7 +143,7 @@ int StartAkinator()
 
         if (answer == -1)
         {
-            printf(
+            PRINT_YELLOW(
                 "Dude, just write \"yes\" or \"no\", my developer is so fucking tired "
                 "of checking if you send me your shit instead of a normal answer\n"
                 "Lets try again\n"
@@ -164,7 +160,7 @@ int StartAkinator()
                 continue;
             }
 
-            printf("I knew it was %s from the very beginning! I won again, old man.\n", curr_node->data);
+            PRINT_BLUE("I knew it was %s from the very beginning! I won again, old man.\n", curr_node->data);
             return 0;
         }
 
@@ -176,11 +172,69 @@ int StartAkinator()
                 continue;
             }
 
-            if(AddNewObject(curr_node) == 0) UpdateAkinatorData(&akinator_tree);
+            if(AddNewObject(curr_node) == 0) UpdateAkinatorData(akinator_tree);
 
             return 0;
         }
     }
+
+    return 0;
+}
+
+int StartAkinatorGame()
+{
+    Tree akinator_tree = {};
+    TreeInit(&akinator_tree);
+    ParseTree(&akinator_tree, "akinator/akinator_data.txt");
+
+    PRINT_BLUE("Welcome to the ultimate game of Akinator by NN ltd.\n");
+    PRINT_BLUE("Our NikitAI model is now capable of guessing any object a person can think of\n");
+    PRINT_BLUE("Specifically developed algorithmes analyze user's answers and can accurately name the guessed object\n");
+    PRINT_BLUE("Wanna check out?\n");
+
+    int round_counter = 1;
+    int answer = GetYesNoAnswer();
+
+    while (answer == -1)
+    {
+        PRINT_YELLOW(
+                    "Dude, just write \"yes\" or \"no\", my developer is so fucking tired "
+                    "of checking if you send me your shit instead of a normal answer\n"
+                    "Lets try again\n"
+        );
+
+        answer = GetYesNoAnswer();
+    }
+
+    while (answer == 1)
+    {
+        PRINT_GREEN("\n---------ROUND #%d-----------\n", round_counter);
+
+        if (PlayAkinatorRound(&akinator_tree) != 0)
+        {
+            PRINT_RED("Akinator game failed in round %d\n", round_counter);
+            return 1;
+        }
+
+        round_counter++;
+
+        PRINT_BLUE("\nWanna play one more round?\n");
+
+        answer = GetYesNoAnswer();
+        while (answer == -1)
+        {
+            PRINT_BLUE(
+                    "Dude, just write \"yes\" or \"no\", my developer is so fucking tired "
+                    "of checking if you send me your shit instead of a normal answer\n"
+                    "Lets try again\n"
+            );
+
+        answer = GetYesNoAnswer();
+
+        }
+    }
+
+    PRINT_BLUE("Thank you for playing!\n");
 
     TreeDestroy(&akinator_tree);
 

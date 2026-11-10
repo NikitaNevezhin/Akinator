@@ -25,6 +25,9 @@ int     AddNewObject            (TreeNode* curr_node);
 
 int     UpdateAkinatorData      (Tree* akinator_tree);
 
-int     StartAkinator           (void);
+int     PlayAkinatorRound       (Tree* akinator_tree);
+
+int     StartAkinatorGame       (void);
+
 
 #endif
