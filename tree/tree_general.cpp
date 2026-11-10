@@ -48,7 +48,7 @@ void PrintTree(TreeNode* root)
     assert(root);
 
     printf("(");
-    printf("%d", root->data);
+    printf("%s", root->data);
 
     if (root->left) PrintTree(root->left);
     else            printf("()");

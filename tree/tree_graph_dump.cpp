@@ -11,7 +11,7 @@ int GenerateNodeDump(FILE* dot_file, const TreeNode* node, int node_idx, int dum
             dot_file, 
             "        d%d_node_%d [label=<\n"
             "            <TABLE BORDER=\"0\" CELLBORDER=\"1\" CELLSPACING=\"0\" COLOR=\"#354733\" BGCOLOR=\"%s\" CELLPADDING=\"7\">\n"
-            "                <TR><TD COLSPAN=\"2\" ALIGN=\"CENTER\"><FONT POINT-SIZE=\"3\"><BR/></FONT>DATA=%d<FONT POINT-SIZE=\"3\"><BR/></FONT></TD></TR>\n"
+            "                <TR><TD COLSPAN=\"2\" ALIGN=\"CENTER\"><FONT POINT-SIZE=\"3\"><BR/></FONT>DATA=%s<FONT POINT-SIZE=\"3\"><BR/></FONT></TD></TR>\n"
             "                <TR><TD COLSPAN=\"2\" ALIGN=\"CENTER\"><FONT POINT-SIZE=\"3\"><BR/></FONT>%p<FONT POINT-SIZE=\"3\"><BR/></FONT></TD></TR>\n"
             "                <TR>\n"
             "                    <TD PORT=\"l\" WIDTH=\"70\" ALIGN=\"CENTER\"><FONT POINT-SIZE=\"3\"><BR/></FONT>%p<FONT POINT-SIZE=\"3\"><BR/></FONT></TD>\n"
@@ -205,7 +205,7 @@ int TreeGenerateHtmlFile(Tree* tree, const char* html_filename,
     fprintf(html_file, 
         "        <pre class=\"light-log\">\n"
         "TreeDump #%d was called in %s:%d in function %s()\n"
-        "Root pointer: %p\n"
+        "Root address: %p\n"
         "Total nodes:  %d\n"
         "        </pre>\n\n",
         dump_counter, file, line, func, tree->root, tree->total_nodes

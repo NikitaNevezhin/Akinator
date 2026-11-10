@@ -1,0 +1,155 @@
+#include "akinator.h"
+
+char* GetUserAnswer()
+{
+    char* buff = (char*)calloc(ANSWER_SIZE, sizeof(char));
+
+    char* fgets_res = fgets(buff, ANSWER_SIZE, stdin);
+
+    if (fgets_res == NULL)
+    {
+        PRINT_RED("Failed to read info from user in %s\n", __func__);
+        return NULL;
+    }
+
+    int length = strlen(buff);
+    if (buff[length - 1] == '\n')   buff[length - 1] = '\0';
+
+    return buff;
+}
+
+void AskQuestion(TreeNode* curr_node)
+{
+    if (curr_node->left || curr_node->right) // has kids -> it is a question
+        printf("object %s?\n", curr_node->data);
+
+    else
+        printf("My guess: the object is %s?\n", curr_node->data);
+
+    return;
+}
+
+bool IsYesAnswer(const char* answer)
+{
+    assert(answer);
+    // printf("In IsYesAnswer I got %s as answer\n", answer);
+    const char* yes_answers[] = {"Yes", "Y", "Yeah", "Absolutely", "Indeed", "Goddamn right", "Kinda"};
+
+    for (size_t i = 0; i < sizeof(yes_answers) / sizeof(yes_answers[0]); i++)
+    {
+        if (IgnoreCaseStrcmp(answer, yes_answers[i]) == 0) return true;
+    }
+    // printf("I am about to return false\n");
+    return false;
+}
+
+bool IsNoAnswer(const char* answer)
+{
+    assert(answer);
+
+    const char* no_answers[] = {"No", "Nah", "Nope", "Nothing", "Absolutely not", "Nothing of the kind"};
+
+    for (size_t i = 0; i < sizeof(no_answers) / sizeof(no_answers[0]); i++)
+    {
+        if (IgnoreCaseStrcmp(answer, no_answers[i]) == 0) return true;
+    }
+
+    return false;
+}
+
+
+int GetYesNoAnswer() // 1 is yes, 0 is no, -1 is wrong input
+{
+    char* answer = GetUserAnswer();
+
+    if (IsYesAnswer(answer)) return 1;
+
+    else if (IsNoAnswer(answer)) return 0;
+
+    return -1;
+}
+
+int AddNewObject(TreeNode* curr_node)
+{
+    assert(curr_node);
+
+    printf("That is not %s?! Who was it then?\n", curr_node->data);
+    char* new_object = GetUserAnswer();
+
+    if (new_object == NULL)
+    {
+        PRINT_RED("User interaction failed in %s\n", __func__);
+        return 1;
+    }
+
+    printf("How do you distinguish them? Unlike %s, %s...\n", curr_node->data, new_object);
+    char* new_characteristic = GetUserAnswer();
+
+    TreeNode* left = (TreeNode*)calloc(1, sizeof(TreeNode));
+    NodeInit(left, curr_node, new_object);
+    LinkLeft(curr_node, left);
+
+    TreeNode* right = (TreeNode*)calloc(1, sizeof(TreeNode));
+    NodeInit(right, curr_node, curr_node->data);  // answer no to new characteristic leads to the old object
+    LinkRight(curr_node, right);
+
+    curr_node->data = new_characteristic;
+
+    printf("You outsmarted me, Mr Smartass, my congratulations!\n");
+
+    return 0;
+}
+
+int StartAkinator()
+{
+    Tree akinator_tree = {};
+    TreeInit(&akinator_tree);
+    ParseTree(&akinator_tree, "akinator/akinator_data.txt");
+
+    TreeNode* curr_node = akinator_tree.root;
+
+    while (curr_node != NULL)
+    {
+        AskQuestion(curr_node);
+
+        int answer = GetYesNoAnswer();
+
+        if (answer == -1)
+        {
+            printf(
+                "Dude, just write \"yes\" or \"no\", my developer is so fucking tired "
+                "of checking if you send me your shit instead of a normal answer\n"
+                "Lets try again\n"
+            );
+
+            continue;
+        }
+
+        else if (answer == 1)  // user entered "yes"
+        {
+            if (curr_node->left)
+            {
+                curr_node = curr_node->left;
+                continue;
+            }
+
+            printf("I knew it was %s from the very beginning! I won again, old man.\n", curr_node->data);
+            return 0;
+        }
+
+        else if (answer == 0)  // user entered "no"
+        {
+            if (curr_node->right)
+            {
+                curr_node = curr_node->right;
+                continue;
+            }
+
+            AddNewObject(curr_node);
+
+            return 0;
+        }
+    }
+
+    return 0;
+}

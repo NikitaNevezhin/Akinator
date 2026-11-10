@@ -1,6 +1,7 @@
 #include "tree.h"
 
 #include <ctype.h>
+#include <string.h>
 
 int ParseData(char* data_buff, FILE* tree_file)
 {
@@ -10,13 +11,7 @@ int ParseData(char* data_buff, FILE* tree_file)
     int curr_data_idx = 0;
     char curr_ch = fgetc(tree_file);
 
-    if (curr_ch == '-') 
-    {
-        data_buff[curr_data_idx++] = (char)curr_ch;
-        curr_ch = fgetc(tree_file);
-    }
-
-    while (isdigit(curr_ch))
+    while (isalnum(curr_ch) || curr_ch == '?')
     {
         data_buff[curr_data_idx] = curr_ch;
         curr_data_idx++;
@@ -33,7 +28,7 @@ int ParseData(char* data_buff, FILE* tree_file)
 TreeNode* ParseSubtree(TreeNode* parent, FILE* tree_file, int* total_nodes)
 {
     assert(tree_file);
-
+    
     char first_symb = fgetc(tree_file);
 
     if (first_symb == '(')
@@ -55,9 +50,7 @@ TreeNode* ParseSubtree(TreeNode* parent, FILE* tree_file, int* total_nodes)
         char* data_buff = (char*)calloc(256, sizeof(char));
         ParseData(data_buff, tree_file);
 
-        const char* const_data_buff = (const char*)data_buff;
-
-        node_t data = atoi(const_data_buff);
+        node_t data = strdup(data_buff);
 
         NodeInit(new_node, parent, data);
 
@@ -69,7 +62,8 @@ TreeNode* ParseSubtree(TreeNode* parent, FILE* tree_file, int* total_nodes)
 
         int close_symb = fgetc(tree_file);
 
-        if (close_symb != ')') {
+        if (close_symb != ')') 
+        {
             PRINT_RED("Parsing error: expected ')', got '%c'\n", close_symb);
         }
 

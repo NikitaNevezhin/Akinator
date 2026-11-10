@@ -9,13 +9,13 @@
 
 #include "../utils/PrintColor.h"
 
-#define POIZON -666666
+#define POIZON NULL
 
 #define TERM_CMD_MAX_SIZE 256  // idk, let it be 256
 
 #define TREE_GRAPH_DUMP(tree, html_filename) TreeGraphDump(tree, html_filename, __FILE__, __LINE__, __func__);
 
-typedef int node_t;
+typedef char* node_t;
 
 struct TreeNode
 {
