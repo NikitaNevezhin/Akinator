@@ -130,6 +130,7 @@ int PlayAkinatorRound(Tree* akinator_tree)
     TreeNode* curr_node = akinator_tree->root;
 
     #ifdef GRAPH_DUMP_EACH_ROUND
+    printf("First execution\n");
     TREE_GRAPH_DUMP(akinator_tree, AKINATOR_DUMP);
     #endif
 
@@ -165,7 +166,7 @@ int PlayAkinatorRound(Tree* akinator_tree)
             }
 
             PRINT_BLUE("I knew it was %s from the very beginning! I won again, old man.\n", curr_node->data);
-            return 0;
+            break;
         }
 
         else if (answer == 0)  // user entered "no"
@@ -178,14 +179,15 @@ int PlayAkinatorRound(Tree* akinator_tree)
 
             if(AddNewObject(curr_node) == 0) UpdateAkinatorData(akinator_tree);
 
-            return 0;
+            break;
         }
     }
 
     #ifdef GRAPH_DUMP_EACH_ROUND
+    printf("Second execution\n");
     TREE_GRAPH_DUMP(akinator_tree, AKINATOR_DUMP);
     #endif
-    
+
     return 0;
 }
 
