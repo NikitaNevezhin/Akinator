@@ -130,7 +130,6 @@ int PlayAkinatorRound(Tree* akinator_tree)
     TreeNode* curr_node = akinator_tree->root;
 
     #ifdef GRAPH_DUMP_EACH_ROUND
-    printf("First execution\n");
     TREE_GRAPH_DUMP(akinator_tree, AKINATOR_DUMP);
     #endif
 
@@ -184,7 +183,6 @@ int PlayAkinatorRound(Tree* akinator_tree)
     }
 
     #ifdef GRAPH_DUMP_EACH_ROUND
-    printf("Second execution\n");
     TREE_GRAPH_DUMP(akinator_tree, AKINATOR_DUMP);
     #endif
 
@@ -196,6 +194,12 @@ int StartAkinatorGame()
     Tree akinator_tree = {};
     TreeInit(&akinator_tree);
     ParseTree(&akinator_tree, "akinator/akinator_data.txt");
+
+    if (akinator_tree.root == NULL)
+    {
+        PRINT_RED("akinator_tree is empty. Probably akinator_data is empty as well.\n");
+        return 1;
+    }
 
     PRINT_BLUE("Welcome to the ultimate game of Akinator by NN ltd.\n");
     PRINT_BLUE("Our NikitAI model is now capable of guessing any object a person can think of\n");
