@@ -57,7 +57,6 @@ bool IsNoAnswer(const char* answer)
     return false;
 }
 
-
 int GetYesNoAnswer() // 1 is yes, 0 is no, -1 is wrong input
 {
     char* answer = GetUserAnswer();
@@ -96,6 +95,24 @@ int AddNewObject(TreeNode* curr_node)
     curr_node->data = new_characteristic;
 
     printf("You outsmarted me, Mr Smartass, my congratulations!\n");
+
+    return 0;
+}
+
+int UpdataAkinatorData(Tree* akinator_tree)
+{
+    assert(akinator_tree);
+
+    FILE* akinator_data = fopen(AKINATOR_DATA, "w");
+    if (akinator_data == NULL)
+    {
+        PRINT_RED("Failed to open %s in %s\n", __func__, __FILE__);
+        return 1;
+    }
+
+    FprintTree(akinator_data, akinator_tree->root);
+
+    fclose(akinator_data);
 
     return 0;
 }
@@ -146,7 +163,8 @@ int StartAkinator()
             }
 
             AddNewObject(curr_node);
-
+            UpdataAkinatorData(&akinator_tree);
+            
             return 0;
         }
     }

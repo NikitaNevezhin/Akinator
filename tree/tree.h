@@ -63,6 +63,7 @@ TreeNode*    ParseSubtree        (TreeNode* parent, FILE* tree_file, int* total_
 
 int          ParseTree           (Tree* tree, const char* tree_filename);
 
+void         FprintTree          (FILE* tree_file, TreeNode* root);
 
 // ------------------
 // GRAPH DUMP SECTION
@@ -80,7 +81,5 @@ int     TreeGenerateHtmlFile    (Tree* tree,  const char* html_filename,
 int     TreeGraphDump           (Tree* tree, const char* html_filename, 
                                  const char* file, int line, const char* func);
 
-
-
-
+                                 
 #endif

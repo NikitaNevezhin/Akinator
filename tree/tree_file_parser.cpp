@@ -11,7 +11,7 @@ int ParseData(char* data_buff, FILE* tree_file)
     int curr_data_idx = 0;
     char curr_ch = fgetc(tree_file);
 
-    while (isalnum(curr_ch) || curr_ch == '?')
+    while (isalnum(curr_ch) || curr_ch == ' ')
     {
         data_buff[curr_data_idx] = curr_ch;
         curr_data_idx++;
@@ -94,4 +94,20 @@ int ParseTree(Tree* tree, const char* tree_filename)
     fclose(tree_file);
 
     return 0;
+}
+
+void FprintTree(FILE* tree_file, TreeNode* root)
+{
+    assert(tree_file);
+
+    fprintf(tree_file, "(");
+    fprintf(tree_file, "%s", root->data);
+
+    if (root->left) FprintTree(tree_file, root->left);
+    else            fprintf(tree_file, "()");
+
+    if (root->right) FprintTree(tree_file, root->right);
+    else             fprintf(tree_file, "()");
+
+    fprintf(tree_file, ")");
 }
