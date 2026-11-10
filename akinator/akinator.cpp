@@ -3,17 +3,23 @@
 char* GetUserAnswer()
 {
     char* buff = (char*)calloc(ANSWER_SIZE, sizeof(char));
+    if (buff == NULL)
+    {
+        PRINT_RED("Calloc failure in %s\n", __func__);
+        return NULL;
+    }
 
     char* fgets_res = fgets(buff, ANSWER_SIZE, stdin);
 
     if (fgets_res == NULL)
     {
         PRINT_RED("Failed to read info from user in %s\n", __func__);
+        free(buff);
         return NULL;
     }
 
     int length = strlen(buff);
-    if (buff[length - 1] == '\n')   buff[length - 1] = '\0';
+    if (length > 0 && buff[length - 1] == '\n')   buff[length - 1] = '\0';
 
     return buff;
 }
@@ -78,6 +84,8 @@ int AddNewObject(TreeNode* curr_node)
     if (new_object == NULL)
     {
         PRINT_RED("User interaction failed in %s\n", __func__);
+        free(new_object);
+
         return 1;
     }
 
@@ -99,14 +107,14 @@ int AddNewObject(TreeNode* curr_node)
     return 0;
 }
 
-int UpdataAkinatorData(Tree* akinator_tree)
+int UpdateAkinatorData(Tree* akinator_tree)
 {
     assert(akinator_tree);
 
     FILE* akinator_data = fopen(AKINATOR_DATA, "w");
     if (akinator_data == NULL)
     {
-        PRINT_RED("Failed to open %s in %s\n", __func__, __FILE__);
+        PRINT_RED("Failed to open %s in %s\n", AKINATOR_DATA, __func__);
         return 1;
     }
 
@@ -124,6 +132,12 @@ int StartAkinator()
     ParseTree(&akinator_tree, "akinator/akinator_data.txt");
 
     TreeNode* curr_node = akinator_tree.root;
+
+    if (curr_node == NULL)
+    {
+        PRINT_RED("akinator_tree root is NULL. Probably, akinator_data is empty\n");
+        return 1;
+    }
 
     while (curr_node != NULL)
     {
@@ -162,12 +176,13 @@ int StartAkinator()
                 continue;
             }
 
-            AddNewObject(curr_node);
-            UpdataAkinatorData(&akinator_tree);
-            
+            if(AddNewObject(curr_node) == 0) UpdateAkinatorData(&akinator_tree);
+
             return 0;
         }
     }
+
+    TreeDestroy(&akinator_tree);
 
     return 0;
 }

@@ -40,15 +40,17 @@ struct Tree
 int          NodeInit            (TreeNode* node, TreeNode* parent, node_t data);
  
 int          NodeDestroy         (TreeNode* node);
+
+int          TreeInit            (Tree* tree);
+
+int          TreeDestroy         (Tree* tree);
  
 int          LinkLeft            (TreeNode* parent, TreeNode* child);
- 
+
 int          LinkRight           (TreeNode* parent, TreeNode* child);
  
 void         PrintTree           (TreeNode* root);
- 
-int          TreeInit            (Tree* tree);
- 
+  
 TreeNode*    InsertRecursive     (TreeNode* curr_node, TreeNode* parent, node_t data, int* total_nodes);
  
 int          TreeInsert          (Tree* tree, node_t data);

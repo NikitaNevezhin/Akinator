@@ -17,10 +17,38 @@ int NodeDestroy(TreeNode* node)
 {
     if (node == NULL) return 0;  // suppose it is destroyed
 
+    NodeDestroy(node->left);
+    NodeDestroy(node->right);
+
+    free(node->data);
     node->data = POIZON;
+
     node->parent = NULL;
     node->left = NULL;
     node->right = NULL;
+
+    free(node);
+
+    return 0;
+}
+
+int TreeInit(Tree* tree)
+{
+    assert(tree);
+
+    tree->root = NULL;
+    tree->total_nodes = 0;
+ 
+    return 0;
+}
+
+int TreeDestroy(Tree* tree)
+{
+    if (tree == NULL) return 0;  // suppose it is already destroyed
+
+    NodeDestroy(tree->root);
+
+    tree->total_nodes = 0;
 
     return 0;
 }
@@ -57,16 +85,6 @@ void PrintTree(TreeNode* root)
     else            printf("()");
 
     printf(")");
-}
-
-int TreeInit(Tree* tree)
-{
-    assert(tree);
-
-    tree->root = NULL;
-    tree->total_nodes = 0;
- 
-    return 0;
 }
 
 TreeNode* InsertRecursive(TreeNode* curr_node, TreeNode* parent, node_t data, int* total_nodes)
