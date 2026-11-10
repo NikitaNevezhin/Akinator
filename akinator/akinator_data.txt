@@ -1,1 +1,1 @@
-(is animal(barks(is wild(wolf()())(dog()()))(Cat()()))(has brains(is German(Einsten()())(is American(Epstein()())(Nikita()())))(Zbean()())))
+(is animal(barks(is wild(wolf()())(dog()()))(is the best cat ever(Poltorashka()())(Cat()())))(has brains(is German(Einsten()())(is American(Epstein()())(Nikita()())))(is better(zalupa()())(eats brains(zombie()())(Zbean()())))))
