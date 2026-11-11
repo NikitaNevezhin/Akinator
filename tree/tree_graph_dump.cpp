@@ -5,7 +5,9 @@ int GenerateNodeDump(FILE* dot_file, const TreeNode* node, int node_idx, int dum
     assert(dot_file);
     assert(node);
 
-    const char* bgcolor = "#98FF98 "; // valid node
+    const char* bgcolor = "#FFFFE0"; // valid node
+
+    if (node->left == NULL && node->right == NULL) bgcolor = "#8FBC8F";
 
     fprintf(
             dot_file, 
@@ -18,7 +20,7 @@ int GenerateNodeDump(FILE* dot_file, const TreeNode* node, int node_idx, int dum
             "                </TR>\n"
             "            </TABLE>\n"
             "        >];\n\n",
-            dump_counter, node_idx, bgcolor, node->data, node, node->left, node->right
+            dump_counter, node_idx, bgcolor, node->data, node->left, node->right
     );
         
     return 0;
@@ -39,7 +41,7 @@ int GenerateTreeDump(FILE* dot_file, const TreeNode* root, int* node_idx, int du
     {
         int left_idx = *node_idx; // left child index (saving it as it's gonna be lost in the next line)
         GenerateTreeDump(dot_file, root->left, node_idx, dump_counter);
-        fprintf(dot_file, "        d%d_node_%d:s -> d%d_node_%d:n [label=\"YES\"];\n", dump_counter, curr_idx, dump_counter, left_idx);
+        fprintf(dot_file, "        d%d_node_%d:l -> d%d_node_%d:n [label=\"YES\"];\n", dump_counter, curr_idx, dump_counter, left_idx);
         // fprintf(dot_file, "        d%d_node_%d -> d%d_node_%d [color=\"#4169E1\", style=\"dashed\", constraint=false];\n", 
         //         dump_counter, left_idx, dump_counter, curr_idx);
     }
@@ -54,7 +56,7 @@ int GenerateTreeDump(FILE* dot_file, const TreeNode* root, int* node_idx, int du
     {
         int right_idx = *node_idx; // right child index (saving it as it's gonna be lost in the next line)
         GenerateTreeDump(dot_file, root->right, node_idx, dump_counter);
-        fprintf(dot_file, "        d%d_node_%d:s -> d%d_node_%d:n [label=\"NO\"];\n", dump_counter, curr_idx, dump_counter, right_idx);
+        fprintf(dot_file, "        d%d_node_%d:r -> d%d_node_%d:n [label=\"NO\"];\n", dump_counter, curr_idx, dump_counter, right_idx);
         // fprintf(dot_file, "        d%d_node_%d -> d%d_node_%d [color=\"#4169E1\", style=\"dashed\", constraint=false];\n", 
         //         dump_counter, right_idx, dump_counter, curr_idx);
     }

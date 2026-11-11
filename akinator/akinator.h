@@ -10,7 +10,7 @@
 
 #define ANSWER_SIZE 256
 
-#define AKINATOR_DATA "akinator/akinator_data.txt"
+#define AKINATOR_DATA "akinator/breaking_bad_data.txt"
 #define AKINATOR_DUMP "akinator_dump.html"
 
 

@@ -42,7 +42,7 @@ bool IsNoAnswer(const char* answer)
 {
     assert(answer);
 
-    const char* no_answers[] = {"No", "Nah", "Nope", "Nothing", "Absolutely not", "Nothing of the kind"};
+    const char* no_answers[] = {"n", "No", "Nah", "Nope", "Nothing", "Absolutely not", "Nothing of the kind"};
 
     for (size_t i = 0; i < sizeof(no_answers) / sizeof(no_answers[0]); i++)
     {
@@ -193,7 +193,7 @@ int StartAkinatorGame()
 {
     Tree akinator_tree = {};
     TreeInit(&akinator_tree);
-    ParseTree(&akinator_tree, "akinator/akinator_data.txt");
+    ParseTree(&akinator_tree, AKINATOR_DATA);
 
     if (akinator_tree.root == NULL)
     {
